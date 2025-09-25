@@ -10,6 +10,7 @@ import CreateDepartmentForm from './CreateDepartmentForm';
 import { deleteDepartmentAsync, getAllDepartmentsAsync } from '../../../services/departmentService';
 import { IDepartment } from '../../../types/departmentTypes';
 import { defaultFilter } from '../../../utils/constants';
+import { DepartmentManagementIcon } from '../../../utils/Icons';
 
 const columns = [
   { key: 'departmentCode', label: 'Department Code' },
@@ -88,8 +89,8 @@ const DepartmentManagment: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-2xl font-bold">🏢</span>
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-[#1365AA] rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold"><DepartmentManagementIcon/></span>
             </div>
             <div>
               <h1 className="text-heading-2">Department Management</h1>
@@ -97,8 +98,8 @@ const DepartmentManagment: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="px-6 py-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
-              <span className="text-button text-purple-700">
+            <div className="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-md border border-blue-200">
+              <span className="text-button text-accent">
                 {departments.count} Departments
               </span>
             </div>

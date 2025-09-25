@@ -83,7 +83,7 @@ function RequestPage() {
     navigate("/rfps/create-rfp");
   };
 
-  const getRfpRequestFilter = async (filterDto: IFilterDto = filter) => {
+ const getRfpRequestFilter = async (filterDto: IFilterDto = filter) => {
     try {
       //setShowLoader(true);
       let capex_request_responese: any = await getAllRfpsByFilterAsync(

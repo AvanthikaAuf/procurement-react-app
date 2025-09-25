@@ -50,11 +50,11 @@ const RequestDetailPage: React.FC = () => {
                         <>
                             {/* Approval Flow Section - Top */}
                             <div className="bg-white rounded-lg border border-gray-200 p-6">
-                                {(rfpData.status == 5 || rfpData?.status == 6 || rfpData.status == 9 ) ? 
+                                {(rfpData.status == 5 || rfpData?.status == 9 || rfpData.status == 9 ) ? 
                                     <RfpDetailRight rfp={rfpData} trigger={() => { getRequestDetailData(); }} vendorProposals={vendorProposals} setVendorProposals={setVendorProposals}/> :
                                     rfpData.status == 8 ? 
                                         <RfpProposalApproveReject rfpDetails={rfpData} trigger={() => { getRequestDetailData(); }} /> :
-                                        (rfpData.status == 9 || rfpData.status == 10) ? 
+                                        (rfpData.status == 6 || rfpData.status == 10) ? 
                                             <RfpAwardflow rfpDetails={rfpData} trigger={() => { getRequestDetailData(); }}/> :
                                             <RfpApproveReject rfpDetails={rfpData} trigger={() => { getRequestDetailData(); }} />
                                 }

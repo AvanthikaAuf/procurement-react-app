@@ -37,6 +37,7 @@ function VendorPage() {
   const [filter, setFilter] = useState<any>(defaultFilter);
   const [showLoader] = useState<boolean>(false);
   const [statusFilter, setStatusFilter] = useState<string>("All vendors");
+  const [ vendorSubtitle, setvendorSubtitle] = useState<string>("Manage and view all your vendors");
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   // const requestStatuses = [
   //   { label: "Approved", value: "approved" },
@@ -90,6 +91,7 @@ function VendorPage() {
         // setHideDepartment(true);
         // setHideStatus(false)
         // filterdata = { ...filterdata, fields: [{ columnName: "status", operator: "!=", value: 3 }] }
+        setvendorSubtitle("View and manage all registered vendors in the system.")
       } else if (tab == "Assigned") {
         setColumns(commonColumns);
         const vendorIds: Set<number> = new Set();
@@ -102,6 +104,7 @@ function VendorPage() {
         await getAllVendors(filterdata, vendorIds);
         setTableName(tab);
         setStatusFilter(tab);
+        setvendorSubtitle("Review and track vendors assigned to you for management.")
         return;
       } else {
         //setColumns(columns.filter(x=>x!="capexId"));
@@ -156,8 +159,8 @@ function VendorPage() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="px-6 py-3 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl border border-emerald-200">
-                    <span className="text-button text-success">
+                  <div className="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-md border border-blue-200">
+                    <span className="text-button text-accent">
                       {vendors.length} Total Vendors
                     </span>
                   </div>
@@ -197,7 +200,7 @@ function VendorPage() {
                 filter={filter}
                 setFilter={setFilter}
                 title={tableName || "All vendors"}
-                subtitle={"Manage and view all your vendors"}
+                subtitle={ vendorSubtitle || "Manage and view all your vendors"}
                 setIsSortModalOpen={setIsSortModalOpen}
                 columns={columns}
                 items={vendors || []}
@@ -209,6 +212,7 @@ function VendorPage() {
                 trigger={() => setTrigger(true)}
                 NoDataTitle = {"No Vendors are Available"}
                 IsIcon={false}
+                NoDataDescription = {"No vendors have been added yet. Add your first vendor to get started."}
               />
             </div>
 

@@ -981,10 +981,225 @@ export const ClipboardMainIcon: React.FC<IconProps> = ({
       <path d="M3 15h6" />
       <path d="M6 12v6" />
     </svg>
-    <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
-      RFP Requests
-    </div>
   </div>
 );
 
+export const UpcomingTendorsMainIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-5 h-5 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <path d="m14 18 4-4 4 4" />
+      <path d="M16 2v4" />
+      <path d="M18 22v-8" />
+      <path d="M21 11.343V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9" />
+      <path d="M3 10h18" />
+      <path d="M8 2v4" />
+    </svg>
+  </div>
+);
 
+export const UserManagementIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      {/* User Body */}
+      <path d="M10 15H6a4 4 0 0 0-4 4v2" />
+      {/* Gear Teeth */}
+      <path d="m14.305 16.53.923-.382" />
+      <path d="m15.228 13.852-.923-.383" />
+      <path d="m16.852 12.228-.383-.923" />
+      <path d="m16.852 17.772-.383.924" />
+      <path d="m19.148 12.228.383-.923" />
+      <path d="m19.53 18.696-.382-.924" />
+      <path d="m20.772 13.852.924-.383" />
+      <path d="m20.772 16.148.924.383" />
+      {/* Gear Circle */}
+      <circle cx="18" cy="15" r="3" />
+      {/* User Head */}
+      <circle cx="9" cy="7" r="4" />
+    </svg>
+  </div>
+);
+
+export const CategoryManagementIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <path d="M11 13H7" />
+      <path d="M19 9h-4" />
+      <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+      <rect x="15" y="5" width="4" height="12" rx="1" />
+      <rect x="7" y="8" width="4" height="9" rx="1" />
+    </svg>
+  </div>
+);
+
+export const DepartmentManagementIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <path d="M12 10h.01" />
+      <path d="M12 14h.01" />
+      <path d="M12 6h.01" />
+      <path d="M16 10h.01" />
+      <path d="M16 14h.01" />
+      <path d="M16 6h.01" />
+      <path d="M8 10h.01" />
+      <path d="M8 14h.01" />
+      <path d="M8 6h.01" />
+      <path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+    </svg>
+  </div>
+);
+
+export const RolesManagementIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <circle cx="10" cy="7" r="4" />
+      <path d="M10.3 15H7a4 4 0 0 0-4 4v2" />
+      <path d="M15 15.5V14a2 2 0 0 1 4 0v1.5" />
+      <rect width="8" height="5" x="13" y="16" rx=".899" />
+    </svg>
+  </div>
+);
+
+export const ApprovalFlowIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <rect x="16" y="16" width="6" height="6" rx="1" />
+      <rect x="2" y="16" width="6" height="6" rx="1" />
+      <rect x="9" y="2" width="6" height="6" rx="1" />
+      <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+      <path d="M12 12V8" />
+    </svg>
+  </div>
+);
+
+export const CriteriaManagementIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = MAIN_STROKE,
+}) => (
+  <div className="group relative w-6 h-6 flex items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={MAIN_ICON_SIZE}
+      height={MAIN_ICON_SIZE}
+      fill="none"
+      stroke={strokeColor}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    >
+      <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
+      <path d="M2 6h4" />
+      <path d="M2 10h4" />
+      <path d="M2 14h4" />
+      <path d="M2 18h4" />
+      <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+    </svg>
+  </div>
+);
+
+export const NoDataValueIcon: React.FC<IconProps> = ({
+  className,
+  strokeColor = "#1365AA", // default to blue
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 32 32"
+    fill="none"
+    stroke={strokeColor}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`transition-transform duration-300 transform-gpu origin-center group-hover:scale-110 ${className}`}
+    style={{ marginLeft: "10px", marginTop: "10px" }}
+  >
+    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+    <path d="M12 8v4" />
+    <path d="M12 16h.01" />
+  </svg>
+);

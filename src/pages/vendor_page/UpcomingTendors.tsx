@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonTitleCard from "../../components/basic_components/CommonTitleCard";
 import Table from "../../components/basic_components/Table";
 import {
@@ -8,15 +8,22 @@ import {
 import SortModal from "../../components/basic_components/SortModal";
 import CreateButton from "../../components/buttons/CreateButton";
 import TendorModal from "./TendorModal";
-import { Modal as AntdModal, Button } from "antd";
+import { Modal as AntdModal, Button, notification } from "antd";
+import { UpcomingTendorsMainIcon } from "../../utils/Icons";
+import {
+  createTenderAsync,
+  deleteUpcomingTendersAsync,
+  getUpcomingTendersAsync,
+} from "../../services/categoryService";
+import { IFilterDto } from "../../types/commonTypes";
 
 export interface IUTendors {
   id: number;
   title: string;
   description: string;
   publishingDate: string;
-  categoryID: {
-    id: number;
+  categories: {
+    categoryId: number;
     value: string;
     label: string;
   }[];
@@ -27,21 +34,21 @@ type VendorColumnKeys =
   | "title"
   | "description"
   | "publishingDate"
-  | "categoryID";
+  | "categories";
 
 const UpcomingTendors = () => {
   const columns = [
     "title",
     "description",
     "publishingDate",
-    "categoryID",
+    "categories",
     "actions",
   ];
   const vendor_column_labels: Record<VendorColumnKeys, string> = {
     title: "Title",
     description: "Description",
     publishingDate: "Tender Publishing Date",
-    categoryID: "Category ID",
+    categories: "Category ID",
   };
 
   const [tendorlist, setTendorlist] = useState<IUTendors[]>([]);
@@ -51,20 +58,56 @@ const UpcomingTendors = () => {
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [istendorDeleteModalOpen, setTendorDeleteModalOpen] = useState(false);
-
-  // ✅ Added state to store selected tender for deletion
   const [selectedTender, setSelectedTender] = useState<IUTendors | null>(null);
+
+  useEffect(() => {
+    fetchTendorList();
+  }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchQuery]);
+
+  const handleSearch = async () => {
+    console.log(searchQuery, "searchquery after fetch");
+  };
 
   const [tendorData, setTendorData] = useState<IUTendors>({
     id: 0,
     title: "",
     description: "",
     publishingDate: "",
-    categoryID: [],
+    categories: [],
     status: 0,
   });
 
-  const handleSubmit = () => {
+  const fetchTendorList = async (filterData: IFilterDto = defaultFilter) => {
+    console.log("Fetching tenders with filter:", filterData);
+
+    const NewData = await getUpcomingTendersAsync(filterData);
+
+    // Map API response to match Table's expected column keys
+    const TenderValuesData = NewData.map((tender: any) => ({
+      id: tender.id,
+      title: tender.title,
+      description: tender.description,
+      publishingDate: tender.publishingDate,
+      categories: Array.isArray(tender.categories)
+        ? tender.categories.map((cat: any) => ({
+            categoryId: cat.categoryId,
+            value: cat.category.name, // ✅ Should be the name string
+            label: cat.category.name, // ✅ Table renders this
+          }))
+        : [],
+    }));
+
+    console.log("Mapped tenders for table:", TenderValuesData);
+
+    setTendorlist(TenderValuesData);
+  };
+
+  const handleSubmit = async () => {
+    //Validation Function
     const Validatefields = vendor_column_labels;
 
     (Object.keys(Validatefields) as VendorColumnKeys[]).forEach((key) => {
@@ -80,8 +123,14 @@ const UpcomingTendors = () => {
       }
     });
 
-    const newTendor = { ...tendorData, id: Date.now() }; // Assign unique id
-    setTendorlist((prevList) => [...prevList, newTendor]);
+    //To Store the data to table
+    const newTendor = { ...tendorData };
+    await createTenderAsync(newTendor);
+
+    //Fetch data for Showing into Table
+    fetchTendorList();
+
+    //Set Total count and Close modal
     setTotalCount((prev) => prev + 1);
     setCreateModalOpen(false);
     setTendorData({
@@ -89,7 +138,7 @@ const UpcomingTendors = () => {
       title: "",
       description: "",
       publishingDate: "",
-      categoryID: [],
+      categories: [],
       status: 0,
     });
   };
@@ -98,23 +147,17 @@ const UpcomingTendors = () => {
     setCreateModalOpen(true);
   };
 
-  /**
-   * Open delete confirmation modal and store selected tender
-   */
   const handleDeleteTender = (item: IUTendors) => {
     setSelectedTender(item);
     setTendorDeleteModalOpen(true);
   };
 
-  /**
-   * Confirm delete after user clicks "Delete"
-   */
-  const handleConfirmDeleteTender = () => {
+  const handleConfirmDeleteTender = async() => {
     if (selectedTender) {
-      setTendorlist((prevList) =>
-        prevList.filter((tendor) => tendor.id !== selectedTender.id)
-      );
+      await deleteUpcomingTendersAsync(selectedTender.id);
+        notification.success({ message: "Category deleted successfully" });
       setTotalCount((prev) => prev - 1);
+      fetchTendorList();
     }
     setSelectedTender(null);
     setTendorDeleteModalOpen(false);
@@ -129,12 +172,14 @@ const UpcomingTendors = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-[#1365AA] rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white text-2xl font-bold">⏳</span>
+                <span className="text-white text-2xl font-bold">
+                  <UpcomingTendorsMainIcon />
+                </span>
               </div>
               <div>
                 <h1 className="text-heading-2">Upcoming Tenders</h1>
                 <p className="text-body-small text-muted mt-1">
-                  Manage your upcoming tender partners
+                  Overview and management of all upcoming tenders.
                 </p>
               </div>
             </div>

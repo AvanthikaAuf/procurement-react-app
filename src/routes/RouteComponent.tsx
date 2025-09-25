@@ -145,7 +145,7 @@ const RouteComponent: React.FC = () => {
                     <Route path="/settings/roles-managment" element={<SettingsPage />} />
                     <Route path="/settings/criteria-managment" element={<SettingsPage />} />
                     <Route path="/profile" element={<UserProfilePage/>} />
-                    <Route path="/upcoming-vendors" element={<UpcomingTendors/>} />
+                    <Route path="/upcoming-tenders" element={<UpcomingTendors/>} />
                   </Routes>
                 ) : (
                   <div className="flex items-center justify-center h-full">

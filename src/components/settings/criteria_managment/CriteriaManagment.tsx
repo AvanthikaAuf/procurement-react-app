@@ -9,6 +9,7 @@ import { defaultFilter } from '../../../utils/constants';
 import SettingsSortModal from '../settings_components/SettingsSortModal';
 import { deleteCriteriaAsync, getAllCriteriasAsync } from '../../../services/commonService';
 import CriteriaManagmentForm from './CriteriaManagmentForm';
+import { CriteriaManagementIcon } from '../../../utils/Icons';
 
 const columns = [
   { key: 'criteriaName', label: 'Criteria Name' }
@@ -76,8 +77,8 @@ const CriteriaManagment: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-2xl font-bold">📋</span>
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-[#1365AA] rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold"><CriteriaManagementIcon/></span>
             </div>
             <div>
               <h1 className="text-heading-2">Criteria Management</h1>
@@ -85,8 +86,8 @@ const CriteriaManagment: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="px-6 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl border border-cyan-200">
-              <span className="text-button text-cyan-700">
+            <div className="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-md border border-blue-200">
+              <span className="text-button text-accent">
                 {categories.length} Criteria
               </span>
             </div>
