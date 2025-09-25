@@ -27,6 +27,7 @@ import {
 } from "@microsoft/signalr";
 import { Urls } from '../services/ApiConfig';
 import { getAllNotificationsAsync } from '../services/notificationService';
+import { ensureNotificationPermission, showNotification } from '../utils/common';
 
 interface procurementContextProp {
   countryCodes: ICountryCode[] | null;
@@ -49,6 +50,10 @@ const RouteComponent: React.FC = () => {
   const [_, setUserInfo] = useState({ name: "" });
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [notifications, setNotifications] = useState<any[]>([]);
+
+  const enableBrowserNotification = async () => {
+    await ensureNotificationPermission();
+  };
 
   const navigate = useNavigate();
   // Update isMobile based on window resize
@@ -85,6 +90,14 @@ const RouteComponent: React.FC = () => {
     conn.on("ReceivedMessage", (_, notification) => {
       console.log("📩 Notification received:", notification);
       setNotifications((prev) => [notification, ...prev]);
+      showNotification(notification.title ?? 'New notification', {
+        body: notification.description,
+        icon:`${require("../../src/assets/react.svg")}`
+        // icon: payload.iconUrl ?? '/icons/icon-192.png',
+        //clickUrl: payload.url,
+        // tag: 'order-updates', // optional: coalesce updates
+        // renotify: true,       // optional
+      });
     });
 
     conn.onclose(() => console.warn("🔴 SignalR connection closed."));
@@ -102,6 +115,7 @@ const RouteComponent: React.FC = () => {
   };
 
   const setUpOldNotifications = async () => {
+    enableBrowserNotification()
     await initializeSignalR();
     const notifications = await getAllNotificationsAsync();
     setNotifications(notifications);

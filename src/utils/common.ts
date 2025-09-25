@@ -69,29 +69,29 @@ export const getUserCredentials = (): { userId: string, roleId: string, name: st
 
 
 export const fetchAndConvertToFile = async (
-  fileUrl: string,
-  originalFileName: string
+    fileUrl: string,
+    originalFileName: string
 ): Promise<{ document: File; documentName: string }> => {
-  try {
-    console.log("Fetching file from:", fileUrl);
+    try {
+        console.log("Fetching file from:", fileUrl);
 
-    const response = await axios.get(fileUrl, {
-      responseType: "blob",
-      withCredentials: true,
-    });
+        const response = await axios.get(fileUrl, {
+            responseType: "blob",
+            withCredentials: true,
+        });
 
-    console.log("Blob fetched successfully");
+        console.log("Blob fetched successfully");
 
-    const blob = response.data;
+        const blob = response.data;
 
-    // ✅ Use the provided filename instead of extracting from the URL
-    const file = new File([blob], originalFileName, { type: blob.type });
+        // ✅ Use the provided filename instead of extracting from the URL
+        const file = new File([blob], originalFileName, { type: blob.type });
 
-    return { document: file, documentName: originalFileName };
-  } catch (error) {
-    console.error("Error in fetchAndConvertToFile:", error);
-    throw new Error("Something went wrong during file fetch.");
-  }
+        return { document: file, documentName: originalFileName };
+    } catch (error) {
+        console.error("Error in fetchAndConvertToFile:", error);
+        throw new Error("Something went wrong during file fetch.");
+    }
 };
 
 
@@ -105,5 +105,40 @@ export const getUserInitials = (name: string): string => {
 };
 
 export const getKeyByValue = (obj: any, value: number) => {
-  return Object.keys(obj).find(key => obj[key] === value);
+    return Object.keys(obj).find(key => obj[key] === value);
 };
+
+export async function ensureNotificationPermission(): Promise<NotificationPermission | 'unsupported'> {
+    if (!('Notification' in window)) return 'unsupported';
+    if (Notification.permission === 'granted' || Notification.permission === 'denied') {
+        return Notification.permission;
+    }
+    // Prefer calling this from a user-initiated click handler
+    return await Notification.requestPermission();
+}
+
+export function showNotification(
+    title: string,
+    options?: NotificationOptions & { clickUrl?: string; },
+    force: boolean = false
+) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+    // Optional: only show native notification if app not focused
+    const shouldNotify = force || document.hidden || !document.hasFocus();
+
+    if (shouldNotify) {
+        const n = new Notification(title, options);
+        n.onclick = () => {
+            // Bring the tab to front and optionally navigate
+            window.focus();
+            if (options?.clickUrl) window.location.assign(options.clickUrl);
+            n.close();
+        };
+
+        setTimeout(() => n.close(), 5000);
+    } else {
+        // App is focused; consider showing an in-app toast/snackbar instead
+        // e.g., enqueueSnackbar(options.body) or your custom toast
+    }
+}
