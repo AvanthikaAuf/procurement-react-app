@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FilterIcon, MagnifyingGlass, SortIcon } from "../../utils/Icons";
+import {
+  FilterIcon,
+  MagnifyingGlass,
+  NoDataValueIcon,
+  SortIcon,
+} from "../../utils/Icons";
 import ShowStatus from "../buttons/ShowStatus";
 import { IFilterDto } from "../../types/commonTypes";
 import DropdownMenu from "./DropdownMenu";
@@ -61,17 +66,8 @@ const Table: React.FC<TableProps> = ({
   const [pages, _] = useState<number[]>([]);
   const navigate = useNavigate();
   const currentPage = filter?.pageNo ?? 1;
-  //const pageSize = filter?.pageSize ?? 10;
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   if (totalCount > 0) {
-  //     const pagesNeeded = Math.ceil(totalCount / pageSize);
-  //     setPages(Array.from({ length: pagesNeeded }, (_, i) => i + 1));
-  //   } else {
-  //     setPages([]);
-  //   }
-  // }, [totalCount, pageSize]);
   useEffect(() => {}, [totalCount]);
 
   const handlePageChange = (page: number) => {
@@ -119,10 +115,9 @@ const Table: React.FC<TableProps> = ({
 
       if (containerRect) {
         const isNearBottom = buttonRect.bottom > containerRect.bottom - 50;
-
         const dropdownHeight = 120;
 
-        let topPosition = buttonRect.bottom + window.scrollY; // default
+        let topPosition = buttonRect.bottom + window.scrollY;
 
         if (setDeleteOption && setBlockOption && setEditOption) {
           topPosition = isNearBottom
@@ -150,17 +145,13 @@ const Table: React.FC<TableProps> = ({
 
   const handleRowClick = (item: any) => {
     if (type === "rfps") {
-      if (item?.isDraft === true) {
-        navigate(`/${rowNavigationPath}/${item.id}`);
-      } else {
-        navigate(`/${rowNavigationPath}/${item.id}`);
-      }
-    } else if (type === "proposal") {
-      //navigate(`/${rowNavigationPath}/${item.id}`);
-      setIsModalOpenItem && setIsModalOpenItem(item);
-    } else if (type == "vendors") {
       navigate(`/${rowNavigationPath}/${item.id}`);
-    } else if (type == "tendors") {
+    } else if (type === "proposal") {
+      setIsModalOpenItem && setIsModalOpenItem(item);
+    } else if (type === "vendors") {
+      navigate(`/${rowNavigationPath}/${item.id}`);
+    } else if (type === "tendors") {
+      // Tenders click action (currently none)
     }
   };
 
@@ -170,9 +161,11 @@ const Table: React.FC<TableProps> = ({
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            {IsIcon && <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center shadow-md">
-              <span className="text-white text-lg font-bold">📊</span>
-            </div>}
+            {IsIcon && (
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center shadow-md">
+                <span className="text-white text-lg font-bold">📊</span>
+              </div>
+            )}
             <div>
               <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
               <p className="text-sm text-gray-600">{subtitle}</p>
@@ -242,6 +235,7 @@ const Table: React.FC<TableProps> = ({
                 >
                   {columns.map((col) => (
                     <td key={col} className={`px-6 py-4 text-sm`}>
+                      {/* ✅ Special Handling for categoryID */}
                       {col === "status" ? (
                         <ShowStatus status={item[col]} type={type} />
                       ) : col === "tenderNumber" ? (
@@ -281,6 +275,29 @@ const Table: React.FC<TableProps> = ({
                             {item[col]}
                           </span>
                         </div>
+                      ) : col === "categories" ? (
+                        <div className="flex flex-wrap gap-1">
+                          {Array.isArray(item[col]) && item[col].length > 0 ? (
+                            item[col].map((category: any, idx: number) => {
+                              console.log(
+                                category,
+                                "fgadshudr65rdfatyfad7t------"
+                              );
+                              return (
+                                <span
+                                  key={idx}
+                                  className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800"
+                                >
+                                  {category.value}
+                                </span>
+                              );
+                            })
+                          ) : (
+                            <span className="text-gray-500 text-sm">
+                              No Category
+                            </span>
+                          )}
+                        </div>
                       ) : (
                         <span
                           className={`text-gray-900 ${
@@ -302,7 +319,7 @@ const Table: React.FC<TableProps> = ({
                     className="px-6 py-4 text-center"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {dots && item.status == 0 && (
+                    {dots && (!item.status || item.status == 0) && (
                       <button
                         onClick={(e) => toggleDropdown(index, e)}
                         className="inline-flex items-center justify-center w-8 h-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200 focus:outline-none"
@@ -321,18 +338,21 @@ const Table: React.FC<TableProps> = ({
                 >
                   <div className="flex flex-col items-center space-y-4">
                     <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-2">
-                      <span className="text-blue-500 text-3xl">📊</span>
+                      <NoDataValueIcon
+                        className="w-12 h-12"
+                        strokeColor="#1365AA"
+                      />
                     </div>
+
                     <div className="space-y-2">
                       <h3 className="text-xl font-semibold text-gray-800">
-                        {NoDataTitle || "No RFPs Available"}
+                        {NoDataTitle || "No Data Available"}
                       </h3>
                       <p className="text-gray-500 max-w-sm">
                         {NoDataDescription ||
-                          "No RFP requests have been published yet. Create your first RFP to get started."}
+                          "There are currently no records available to display."}
                       </p>
                     </div>
-                    
                   </div>
                 </td>
               </tr>
@@ -341,6 +361,7 @@ const Table: React.FC<TableProps> = ({
         </table>
       </div>
 
+      {/* Dropdown Menu */}
       {openDropdown !== null && (
         <DropdownMenu
           position={dropdownPosition}

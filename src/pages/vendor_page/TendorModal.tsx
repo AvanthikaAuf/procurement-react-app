@@ -3,12 +3,7 @@ import DateTimePicker from "../../components/basic_components/date_time_picker/D
 import TextField from "../../components/basic_components/TextField";
 import { Select } from "antd";
 import { getAllCategoriesAsync } from "../../services/categoryService";
-
-interface CategoryType {
-  id: number;
-  value: string;
-  label: string;
-}
+import { CategoryType } from "../../types/commonTypes";
 
 interface TendorModalProps {
   isOpen: boolean;
@@ -18,7 +13,7 @@ interface TendorModalProps {
     title: string;
     description: string;
     publishingDate: string;
-    categoryID: CategoryType[];
+    categories: CategoryType[];
   };
   setTendorData: React.Dispatch<
     React.SetStateAction<{
@@ -26,7 +21,7 @@ interface TendorModalProps {
       title: string;
       description: string;
       publishingDate: string;
-      categoryID: CategoryType[];
+      categories: CategoryType[];
     }>
   >;
   onSubmit: () => void;
@@ -50,8 +45,8 @@ const TendorModal: React.FC<TendorModalProps> = ({
       const categories = await getAllCategoriesAsync();
       const categoriesValues = categories.map((category: any) => ({
         label: category.name,
-        value: category.name,
-        id: category.id,
+        value: category.id,
+        categoryId: category.id,
       }));
       setCategoryMaster(categoriesValues);
     } catch (error) {
@@ -63,7 +58,7 @@ const TendorModal: React.FC<TendorModalProps> = ({
     const selected = categoryMaster.filter((item) => val.includes(item.value));
     setTendorData((prev) => ({
       ...prev,
-      categoryID: selected,
+      categories: selected,
     }));
   };
 
@@ -153,7 +148,7 @@ const TendorModal: React.FC<TendorModalProps> = ({
               allowClear
               style={{ width: "100%" }}
               placeholder="Select category"
-              value={tendorData.categoryID.map((cat) => cat.value)}
+              value={tendorData.categories.map((cat) => cat.value)}
               onChange={(val) => handleCategoriesOptions(val)}
               options={categoryMaster}
             />

@@ -6,6 +6,12 @@ export interface ColumnData{
     value:string | number | Date | null | undefined | boolean
 }
 
+export interface CategoryType {
+  categoryId: number;
+  value: string;
+  label: string;
+}
+
 export interface IFilterDto{
     fields:ColumnData[]
     sortDirection?:string | undefined
@@ -14,6 +20,7 @@ export interface IFilterDto{
     pageSize?:number
     globalSearch?:string
 }
+
 
 export interface statusDataProp {
     icon: JSX.Element | string,

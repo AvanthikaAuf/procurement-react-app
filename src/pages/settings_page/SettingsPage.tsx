@@ -161,12 +161,10 @@ const SettingsPage = () => {
           <div className="col-span-3">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sticky top-8">
               <div className="flex items-center space-x-3 mb-8">
-                <div className="w-10 h-10 bg-gradient-to-r from-slate-600 to-gray-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="text-white text-lg font-bold">⚙️</span>
-                </div>
+                
                 <div>
                   <h1 className="text-heading-3">Settings</h1>
-                  <p className="text-body-small text-muted">Configuration</p>
+                  <p className="text-body-small text-muted">Configure system and user settings.</p>
                 </div>
               </div>
               <nav className="space-y-2">
@@ -180,7 +178,6 @@ const SettingsPage = () => {
                         : 'text-muted hover:text-slate-900 hover:bg-gray-50'
                     }`}
                   >
-                    <span className="text-lg">{getIcon(item.name as SettingsSection)}</span>
                     <span className="text-label">{item.name}</span>
                   </button>
                 ))}
