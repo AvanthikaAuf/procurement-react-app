@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { LoginComponent } from "../../components/login/LoginComponent";
@@ -10,7 +10,6 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const isTokenExist = Cookies.get("token");
@@ -22,42 +21,6 @@ export const Login: React.FC<LoginProps> = ({ setUserLoggedIn }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <div className="flex w-full mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-        {/* Left Side - Login Form */}
-        <div className="w-full lg:w-3/5 flex flex-col bg-white">
-          {/* Logo */}
-          <div className="flex items-center" style={{ padding: "30px" }}>
-            <img
-              className="h-8 w-auto mr-3"
-              src={ProcurementLogo}
-              alt="TenderFlow Logo"
-            />
-            <span className="text-xl font-bold text-gray-900">TenderFlow</span>
-          </div>
-          <div className="p-8 lg:px-16 lg:py-10">
-            <div className="w-full max-w-md mx-auto">
-              {/* Welcome Back Header */}
-              <div className="mb-8 text-center">
-                <h1 className="text-3xl font-bold text-gray-900 mb-3 tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out">
-                  Welcome Back
-                </h1>
-                <p className="text-gray-600 text-base hover:text-[#191970] transition-colors duration-300">
-                  Enter your email and password to access your account.
-                </p>
-              </div>
-
-              {/* Login Form */}
-              <LoginComponent setUserLoggedIn={setUserLoggedIn} />
-
-              {/* Footer */}
-              <div className="mt-auto pt-8">
-                <p className="text-xs text-gray-400 text-center">
-                  Copyright © 2025. TenderFlow Enterprises LTD.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Right Side - Feature Showcase */}
          <div className="hidden lg:flex lg:w-3/5 bg-gradient-to-br from-[#1365AA] via-[#1E79B5] to-[#2A8CCB] p-8 flex-col justify-center relative overflow-hidden m-5 border-r-4 border-slate-200 rounded-2xl">
           {/* Background Pattern */}
@@ -130,6 +93,41 @@ export const Login: React.FC<LoginProps> = ({ setUserLoggedIn }) => {
               <p className="text-blue-100 text-sm">
                 Join thousands of organizations optimizing their procurement process
               </p>
+            </div>
+          </div>
+        </div>
+         {/* Left Side - Login Form */}
+        <div className="w-full lg:w-3/5 flex flex-col bg-white">
+          {/* Logo */}
+          <div className="flex items-center" style={{ padding: "30px" }}>
+            <img
+              className="h-8 w-auto mr-3"
+              src={ProcurementLogo}
+              alt="TenderFlow Logo"
+            />
+            <span className="text-xl font-bold text-gray-900">TenderFlow</span>
+          </div>
+          <div className="p-8 lg:px-16 lg:py-10">
+            <div className="w-full max-w-md mx-auto">
+              {/* Welcome Back Header */}
+              <div className="mb-8 text-center">
+                <h1 className="text-3xl font-bold text-gray-900 mb-3 tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out">
+                  Welcome Back
+                </h1>
+                <p className="text-gray-600 text-base hover:text-[#191970] transition-colors duration-300">
+                  Enter your email and password to access your account.
+                </p>
+              </div>
+
+              {/* Login Form */}
+              <LoginComponent setUserLoggedIn={setUserLoggedIn} />
+
+              {/* Footer */}
+              <div className="mt-auto pt-8">
+                <p className="text-xs text-gray-400 text-center">
+                  Copyright © 2025. TenderFlow Enterprises LTD.
+                </p>
+              </div>
             </div>
           </div>
         </div>

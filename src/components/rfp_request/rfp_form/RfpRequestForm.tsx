@@ -9,20 +9,26 @@ import { IRfp } from "../../../types/rfpTypes";
 import RfpDetails from "./RfpDetails";
 import { getAllCategoriesAsync } from "../../../services/categoryService";
 import TimeLineOwnership from "./TimeLineOwnership";
-import { createOrUpdateRfpAsync, getRfpByIdAsync } from "../../../services/rfpService";
-import { fetchAndConvertToFile, getUserCredentials } from "../../../utils/common";
+import {
+  createOrUpdateRfpAsync,
+  getRfpByIdAsync,
+} from "../../../services/rfpService";
+import {
+  fetchAndConvertToFile,
+  getUserCredentials,
+} from "../../../utils/common";
 import { getAllCompaniesAsync } from "../../../services/companyService";
 import CommonTitleCard from "../../basic_components/CommonTitleCard";
 import RfpAttachments from "./RfpAttachments";
 import ProcurementItems from "./ProcurementItems";
 import { getAllDocumentTypesAsync } from "../../../services/commonService";
+import { ClipboardMainIcon } from "../../../utils/Icons";
 
-type RfpType = 'create' | 'edit';
+type RfpType = "create" | "edit";
 
 interface RfpRequestFormProps {
   type?: RfpType; // optional, will default to 'create'
 }
-
 
 const defaultRfpState: IRfp = {
   id: 0,
@@ -51,17 +57,24 @@ const defaultRfpState: IRfp = {
   rfpDocuments: [],
   rfpOwners: [],
   rfpCategories: [],
-  rfpItems: []
+  rfpItems: [],
 };
 
-function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
-
+function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [requestData, setRequestData] = useState<IRfp>(defaultRfpState);
   const [attachments, setAttachments] = useState<any[]>([]);
-  const [masterData, setMasterData] = useState<any>({ users: [], departments: [], categories: [], companies: [], documentTypes: [] });
-  const [owners, setOwners] = useState<{ technical: any[], commercial: any[] }>({ technical: [], commercial: [] });
+  const [masterData, setMasterData] = useState<any>({
+    users: [],
+    departments: [],
+    categories: [],
+    companies: [],
+    documentTypes: [],
+  });
+  const [owners, setOwners] = useState<{ technical: any[]; commercial: any[] }>(
+    { technical: [], commercial: [] }
+  );
   const [procurementItems, setProcurementItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -77,23 +90,38 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
       const companies = await getAllCompaniesAsync();
       const documentTypes = await getAllDocumentTypesAsync();
       setMasterData({
-        users: (users as any)?.items, departments: departments.data, categories, companies, documentTypes
-      })
+        users: (users as any)?.items,
+        departments: departments.data,
+        categories,
+        companies,
+        documentTypes,
+      });
       if (id && !isNaN(Number(id))) {
         try {
           const rfpRequest = await getRfpByIdAsync(Number(id));
-          setRequestData({ ...rfpRequest, buyer: [{ name: getUserCredentials().name, id: getUserCredentials().userId }], rfpDocuments: [] });
+          setRequestData({
+            ...rfpRequest,
+            buyer: [
+              {
+                name: getUserCredentials().name,
+                id: getUserCredentials().userId,
+              },
+            ],
+            rfpDocuments: [],
+          });
 
           const ownersTemp: any = { technical: [], commercial: [] };
           rfpRequest.rfpOwners.forEach((item: any) => {
-            const user: any = (users as any)?.items.find((u: any) => u.id == item.ownerId);
+            const user: any = (users as any)?.items.find(
+              (u: any) => u.id == item.ownerId
+            );
             if (user) {
               if (item.ownerType == 1) ownersTemp.technical.push(user);
               if (item.ownerType == 2) ownersTemp.commercial.push(user);
             }
           });
           setOwners(ownersTemp);
-          setProcurementItems(rfpRequest.rfpItems|| []);
+          setProcurementItems(rfpRequest.rfpItems || []);
           // ✅ Load previously uploaded files
           const filesArray: any = [];
           for (let fileDetail of rfpRequest.rfpGeneralDocuments || []) {
@@ -111,19 +139,19 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
           }
 
           setAttachments(filesArray);
-          console.log(requestData, "RequestData")
-          console.log(ownersTemp, "ownersTemp")
-          console.log(attachments, "attachements")
+          console.log(requestData, "RequestData");
+          console.log(ownersTemp, "ownersTemp");
+          console.log(attachments, "attachements");
           return;
         } catch (err) {
           console.error(err);
         }
       } else {
         setRequestData((prev) => ({
-          ...prev, buyerOrganizationName: companies?.find(
-            (x: any) =>
-              x?.id.toString() === getUserCredentials().companyId
-          )?.companyName
+          ...prev,
+          buyerOrganizationName: companies?.find(
+            (x: any) => x?.id.toString() === getUserCredentials().companyId
+          )?.companyName,
         }));
       }
     } catch (err) {
@@ -160,20 +188,26 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
   //   setCurrent((prev) => Math.max(prev - 1, 0));
   // };
   useEffect(() => {
-    console.log(requestData, "reg")
-  }, [requestData])
+    console.log(requestData, "reg");
+  }, [requestData]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted!", requestData);
-    
+
     // Basic validation
-    if (!requestData.rfpTitle || !requestData.rfpDescription || !requestData.estimatedContractValue) {
+    if (
+      !requestData.rfpTitle ||
+      !requestData.rfpDescription ||
+      !requestData.estimatedContractValue
+    ) {
       console.log("Validation failed - missing required fields");
-      alert("Please fill in all required fields (RFP Title, Description, and Estimated Contract Value)");
+      alert(
+        "Please fill in all required fields (RFP Title, Description, and Estimated Contract Value)"
+      );
       return;
     }
-    
+
     setIsLoading(true);
     // if (actionRef.current?.value == "next") {
     //   next();
@@ -183,7 +217,9 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
       const formData = new FormData();
       const formDataTemp: Record<string, any> = requestData;
       formDataTemp.bidValue = Number(requestData.bidValue) || undefined;
-      formDataTemp.estimatedContractValue = Number(requestData.estimatedContractValue);
+      formDataTemp.estimatedContractValue = Number(
+        requestData.estimatedContractValue
+      );
       for (var key in formDataTemp) {
         if (formDataTemp.hasOwnProperty(key)) {
           const value = formDataTemp[key];
@@ -214,18 +250,20 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
                 formData.append(`rfpOwners[${i}].ownerId`, item.id);
                 formData.append(`rfpOwners[${i}].rfpId`, formDataTemp.id);
                 i++;
-                console.log(item, i, "commercial")
-              })
+                console.log(item, i, "commercial");
+              });
             } else if (key == "buyer") continue;
             else if (key === "rfpCategories") {
               let i = 0;
               requestData.rfpCategories.forEach((item: any) => {
-                formData.append(`rfpCategories[${i}].categoryId`, item.categoryId);
+                formData.append(
+                  `rfpCategories[${i}].categoryId`,
+                  item.categoryId
+                );
                 formData.append(`rfpCategories[${i}].rfpId`, formDataTemp.id);
                 i++;
               });
-            }
-            else if (key === "rfpItems") {
+            } else if (key === "rfpItems") {
               let i = 0;
               procurementItems.forEach((item: any) => {
                 formData.append(`rfpItems[${i}].id`, item?.id || "0");
@@ -235,8 +273,7 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
                 formData.append(`rfpItems[${i}].rfpId`, formDataTemp.id);
                 i++;
               });
-            }
-            else {
+            } else {
               formData.append(key, value);
             }
           }
@@ -244,9 +281,9 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
       }
 
       const isCreatedOrUpdated = await createOrUpdateRfpAsync(formData);
-      if (isCreatedOrUpdated) navigate(id ? `/rfps/${id}` : "/rfps")
+      if (isCreatedOrUpdated) navigate(id ? `/rfps/${id}` : "/rfps");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -255,24 +292,25 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <CommonTitleCard />
-      
+
       {/* Header Section */}
       <div className="bg-white shadow-lg border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white text-2xl font-bold">📋</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-[#1365AA] rounded-2xl flex items-center justify-center shadow-lg">
+                <span className="text-white text-2xl font-bold">
+                  <ClipboardMainIcon />
+                </span>
               </div>
               <div>
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  {type === 'create' ? 'Create New RFP' : 'Edit RFP'}
+                  {type === "create" ? "Create New RFP" : "Edit RFP"}
                 </h1>
                 <p className="text-gray-600 mt-2 text-sm">
-                  {type === 'create' 
-                    ? 'Fill in the details below to create a new Request for Proposal' 
-                    : 'Update the RFP information as needed'
-                  }
+                  {type === "create"
+                    ? "Fill in the details below to create a new Request for Proposal"
+                    : "Update the RFP information as needed"}
                 </p>
               </div>
             </div>
@@ -295,38 +333,48 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center shadow-md">
                     <span className="text-white text-sm font-bold">1</span>
                   </div>
-                  <span className="text-sm font-semibold text-gray-700">General Info</span>
-                </div>
-                <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center shadow-md">
-                    <span className="text-white text-sm font-bold">2</span>
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700">RFP Details</span>
-                </div>
-                <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center shadow-md">
-                    <span className="text-white text-sm font-bold">3</span>
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700">Timeline & Ownership</span>
+                  <span className="text-sm font-semibold text-gray-700">
+                    General Info
+                  </span>
                 </div>
                 <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center shadow-md">
-                    <span className="text-white text-sm font-bold">4</span>
+                    <span className="text-white text-sm font-bold">2</span>
                   </div>
-                  <span className="text-sm font-semibold text-blue-700">Procurement Items</span>
+                  <span className="text-sm font-semibold text-gray-700">
+                    RFP Details
+                  </span>
+                </div>
+                <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center shadow-md">
+                    <span className="text-white text-sm font-bold">3</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">
+                    Timeline & Ownership
+                  </span>
+                </div>
+                <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-full flex items-center justify-center shadow-md">
+                    <span className="text-blue-700 text-sm font-bold">4</span>
+                  </div>
+                  <span className="text-sm font-semibold text-blue-700">
+                    Procurement Items
+                  </span>
                 </div>
                 <div className="w-16 h-1 bg-gray-300 rounded-full"></div>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center shadow-md">
                     <span className="text-gray-600 text-sm font-bold">5</span>
                   </div>
-                  <span className="text-sm font-semibold text-gray-500">Attachments</span>
+                  <span className="text-sm font-semibold text-gray-500">
+                    Attachments
+                  </span>
                 </div>
               </div>
             </div>
@@ -334,11 +382,33 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
 
           {/* Form Sections */}
           <div className="space-y-8">
-            <GeneralInformation masterData={masterData} setRequestData={setRequestData} requestData={requestData} />
-            <RfpDetails masterData={masterData} setRequestData={setRequestData} requestData={requestData} />
-            <TimeLineOwnership masterData={masterData} setRequestData={setRequestData} requestData={requestData} owners={owners} setOwners={setOwners} />
-            <ProcurementItems items={procurementItems} setItems={setProcurementItems} />
-            <RfpAttachments attachments={attachments} setAttachments={setAttachments} setAttachmentsToDelete={() => { }} documentTypes={masterData.documentTypes} />
+            <GeneralInformation
+              masterData={masterData}
+              setRequestData={setRequestData}
+              requestData={requestData}
+            />
+            <RfpDetails
+              masterData={masterData}
+              setRequestData={setRequestData}
+              requestData={requestData}
+            />
+            <TimeLineOwnership
+              masterData={masterData}
+              setRequestData={setRequestData}
+              requestData={requestData}
+              owners={owners}
+              setOwners={setOwners}
+            />
+            <ProcurementItems
+              items={procurementItems}
+              setItems={setProcurementItems}
+            />
+            <RfpAttachments
+              attachments={attachments}
+              setAttachments={setAttachments}
+              setAttachmentsToDelete={() => {}}
+              documentTypes={masterData.documentTypes}
+            />
           </div>
 
           {/* Form Actions */}
@@ -346,35 +416,35 @@ function RfpRequestFormComponent({ type = 'create' }: RfpRequestFormProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-blue-600 text-lg">📊</span>
-                  </div>
                   <div>
                     <div className="text-sm font-semibold text-gray-700">
-                      {type === 'create' ? 'Creating new RFP' : 'Updating RFP'}
+                      {type === "create" ? "Creating new RFP" : "Updating RFP"}
                     </div>
                     <div className="text-xs text-gray-500">
-                      {(procurementItems || []).length} items • {(attachments || []).length} attachments
+                      {(procurementItems || []).length} items •{" "}
+                      {(attachments || []).length} attachments
                     </div>
                   </div>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <Button 
-                  onClick={() => { navigate(id ? `/rfps/${id}` : "/rfps") }} 
+                <Button
+                  onClick={() => {
+                    navigate(id ? `/rfps/${id}` : "/rfps");
+                  }}
                   className="px-8 py-3 h-auto border-gray-300 text-gray-700 hover:bg-gray-50 transition-all duration-200 font-semibold"
                   size="large"
                 >
                   Cancel
                 </Button>
-                <Button 
-                  type="primary" 
+                <Button
+                  type="primary"
                   htmlType="submit"
                   onClick={() => {
                     console.log("Button clicked!");
                     // Let the form's onSubmit handle the submission
                   }}
-                  className="px-10 py-3 h-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5" 
+                  className="px-10 py-3 h-auto bg-gradient-to-r from-blue-400 to-[#1365AA] hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5"
                   loading={isLoading}
                   size="large"
                 >

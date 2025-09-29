@@ -13,15 +13,6 @@ const StepCard: React.FC<{ step: IStep, trigger: () => void, flowType:"rfp" | "r
             {/* Header Section */}
             <div className="bg-gray-50 px-3 py-2 border-b border-gray-200">
                 <div className="flex items-center space-x-2">
-                    {/* Role Icon */}
-                    <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                        <span className="text-white text-xs">
-                            {step.approverRole === 'HOD' ? '👨‍💼' : 
-                             step.approverRole === 'IT' ? '💻' : 
-                             step.approverRole === 'Finance' ? '💰' : '👤'}
-                        </span>
-                    </div>
-                    
                     {/* Role Title */}
                     <div className="flex-1">
                         <h3 className="text-sm font-semibold text-gray-900">{step.approverRole}</h3>

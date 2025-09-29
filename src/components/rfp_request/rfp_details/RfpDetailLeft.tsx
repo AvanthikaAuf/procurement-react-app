@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import userPhoto from "../../../assets/profile_photo/userPhoto.png";
 import { getAllUsersByFilterAsync } from "../../../services/userService";
 import { useNavigate, useParams } from "react-router-dom";
-import { PenIcon } from "lucide-react";
+import { ClipboardIcon, PenIcon } from "lucide-react";
 import ViewTable from "../../basic_components/ViewTable";
 import { documentTypeConst } from "../../../utils/constants";
 
@@ -177,8 +177,8 @@ const RfpDetailLeft: React.FC<RfpDetailLeftProp> = ({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-sm">📋</span>
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-[#1365AA] rounded-lg flex items-center justify-center">
+                    <span className="text-white text-sm"><ClipboardIcon/></span>
                   </div>
                   <div>
                     <h1 className="text-xl font-bold text-gray-900">

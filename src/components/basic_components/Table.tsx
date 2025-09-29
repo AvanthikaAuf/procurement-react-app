@@ -240,11 +240,6 @@ const Table: React.FC<TableProps> = ({
                         <ShowStatus status={item[col]} type={type} />
                       ) : col === "tenderNumber" ? (
                         <div className="flex items-center">
-                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                            <span className="text-blue-600 font-semibold text-xs">
-                              {index + 1}
-                            </span>
-                          </div>
                           <span className="font-medium text-gray-900 text-sm">
                             {item[col]}
                           </span>

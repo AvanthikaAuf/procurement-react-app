@@ -11,16 +11,7 @@ const StepCard: React.FC<{ step: IStep, trigger: () => void }> = ({ step, trigge
         <div className="bg-white rounded border border-gray-200 overflow-hidden mb-2 hover:shadow-sm transition-all duration-200">
             {/* Header Section */}
             <div className="bg-gray-50 px-3 py-2 border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                    {/* Role Icon */}
-                    <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                        <span className="text-white text-xs">
-                            {step.approverRole === 'HOD' ? '👨‍💼' : 
-                             step.approverRole === 'IT' ? '💻' : 
-                             step.approverRole === 'Finance' ? '💰' : '👤'}
-                        </span>
-                    </div>
-                    
+                <div className="flex items-center space-x-2">                   
                     {/* Role Title */}
                     <div className="flex-1">
                         <h3 className="text-sm font-semibold text-gray-900">{step.approverRole}</h3>
@@ -48,7 +39,6 @@ const StepCard: React.FC<{ step: IStep, trigger: () => void }> = ({ step, trigge
                     <div className="flex-1">
                         <h4 className="text-sm font-semibold text-gray-900">{step.approverName}</h4>
                         <div className="flex items-center space-x-1 text-gray-600">
-                            <span className="text-sm">📧</span>
                             <span className="text-sm">{step.approverEmail}</span>
                         </div>
                     </div>

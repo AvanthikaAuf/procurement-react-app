@@ -94,7 +94,7 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
     <>
       {rfpDetails.status === 6 ? (
         
-        <div className="w-full space-y-2 desktop:max-w-[712px] mx-auto rounded-lg h-full px-6 max-h-[890px] overflow-y-auto scrollbar">
+        <div className="w-full space-y-2 desktop:max-w-[712px] mx-auto rounded-lg h-full px-6 mt-4">
           <div className="bg-gray-50 rounded p-6 mb-3 border border-gray-200">
             <div className="w-full mb-6">
               <div className="flex items-center justify-between mb-2">
