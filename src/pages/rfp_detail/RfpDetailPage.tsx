@@ -127,6 +127,12 @@ const RequestDetailPage: React.FC = () => {
                       } else if (rfpData?.status == 9) {
                         navigate(`/rfps/${id}/decision-form`);
                       } else {
+                        if(!vendorProposals || vendorProposals.length == 0){
+                          notification.warning({
+                            message:"No Proposals Found"
+                          })
+                          return;
+                        }
                         await openRfpProposalsAsync(rfpData?.id);
                         notification.success({
                           message: "RFP sent for open proposal",
