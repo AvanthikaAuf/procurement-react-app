@@ -17,6 +17,20 @@ export const createOrUpdateRfpAsync = async(data:any)=>{
     }
 }
 
+export const sendFinalBidRequestAsync = async(rfpId:number)=>{
+
+    try{
+        const response = await axios.post(`${Urls.defaultUrl}/api/Rfps/SentForFinalBidding?rfpId=${rfpId}`,null,{
+            headers:{
+                Authorization:`Bearer ${getUserToken()}`
+            }
+        })
+        return response.data;
+    }catch(err){
+        console.log(err);
+    }
+}
+
 export const publishRfpAsync = async(rfpId:number)=>{
     try{
         const response = await axios.post(`${Urls.defaultUrl}/api/Rfps/RfpPublish?rfpId=${rfpId}`,null,{
@@ -73,6 +87,19 @@ export const getAllRfpsByFilterAsync = async(filterDto:IFilterDto = defaultFilte
 export const getAllProposalsByFilterAsync = async(filterDto:IFilterDto)=>{
     try{
         const response = await axios.post(`${Urls.defaultUrl}/api/Rfps/GetAllRfpProposalsAsync`,filterDto,{
+            headers:{
+                Authorization:`Bearer ${getUserToken()}`
+            }
+        })
+        return response.data;
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const getProposalByIdAsync = async(id : number)=>{
+    try{
+        const response = await axios.get(`${Urls.defaultUrl}/api/Rfps/GetAllRfpProposalsAsync/${id}`,{
             headers:{
                 Authorization:`Bearer ${getUserToken()}`
             }
@@ -242,6 +269,19 @@ export const getRfpDecisionPapersAsync = async(id:number)=>{
 export const getRfpDecisionPaperByRfpIdAsync = async(id:number)=>{
     try{
         const response = await axios.get(`${Urls.defaultUrl}/api/Rfps/RfpDecisionPapers?rfpId=${id}`,{
+            headers:{
+                Authorization:`Bearer ${getUserToken()}`
+            }
+        })
+        return response.data;
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const getAllSelectedProposalsByRfpIdAsync = async(rfpId:number)=>{
+    try{
+        const response = await axios.get(`${Urls.defaultUrl}/api/Rfps/GetAllSelectedProposalsByRfpId/${rfpId}`,{
             headers:{
                 Authorization:`Bearer ${getUserToken()}`
             }

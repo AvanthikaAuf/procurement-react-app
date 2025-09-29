@@ -21,9 +21,6 @@ const GeneralInformation: React.FC<GeneralInformationProps> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-200">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
-            <span className="text-white text-xl font-bold">ℹ️</span>
-          </div>
           <div>
             <h2 className="text-xl font-semibold text-gray-900">General Information</h2>
             <p className="text-gray-600 mt-1 text-sm">Basic details about your RFP request</p>

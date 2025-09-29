@@ -6,6 +6,12 @@ export interface ColumnData{
     value:string | number | Date | null | undefined | boolean
 }
 
+export interface CategoryType {
+  categoryId: number;
+  value: string;
+  label: string;
+}
+
 export interface IFilterDto{
     fields:ColumnData[]
     sortDirection?:string | undefined
@@ -14,6 +20,7 @@ export interface IFilterDto{
     pageSize?:number
     globalSearch?:string
 }
+
 
 export interface statusDataProp {
     icon: JSX.Element | string,
@@ -40,22 +47,24 @@ export interface ErrorResponse{
 }
 
 export interface INotificationItem {
-    id: string;
+    id: number;
     createdAt: string;
     createdBy: string;
     updatedAt: string;
     updatedBy: string;
     clientId: string;
-    capexRequestId: string;
-    projectName: string;
-    expenditureType: string;
-    departmentName: string;
-    currency: string;
-    estimatedBudget: number;
+    uid: string;
+    title: string;
+    description: string;
+    userId: number;
+    userType: string;
+    uniqueId:string;
+    notificationType:string;
     status: string;
     priority: string;
     isRead: boolean;
     isArchived: boolean;
+    isDeleted:boolean;
   }
 
   export interface ICountryCode {

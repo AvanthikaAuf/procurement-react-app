@@ -8,6 +8,7 @@ import {
   DocumentTextIcon,
   HomeIcon,
   SettingsIcon,
+  UpcomingTendorsIcon,
   UserIcon,
 } from "../../utils/Icons";
 import Modal from "./Modal";
@@ -31,6 +32,7 @@ const Sidebar = ({ notifications,trigger }: SidebarProp) => {
     { to: "/", title: "Dashboard", icon: HomeIcon },
     { to: "/rfps", title: "Requests", icon: ClipboardIcon },
     { to: "/vendors", title: "Vendors", icon: DocumentTextIcon },
+    { to: "/upcoming-tenders", title: "UpcomingVendors", icon: UpcomingTendorsIcon },
     { to: "/settings/user-managment", title: "Settings", icon: SettingsIcon },
   ];
 
@@ -153,7 +155,7 @@ const Sidebar = ({ notifications,trigger }: SidebarProp) => {
       return (
         <NavLink
           to={to}
-          title={title}
+          // title={title}
           onClick={handleClick}
           className={({ isActive }) =>
             `flex justify-center items-center w-[38px] h-[38px] px-2 py-1 ${isActive || isSettingsActive || isSpendAnalysysActive || isRequestsActive
@@ -174,7 +176,7 @@ const Sidebar = ({ notifications,trigger }: SidebarProp) => {
     return (
       <NavLink
         to={to}
-        title={title}
+        //title={title}
         onClick={handleClick}
         className={({ isActive }) =>
           `flex justify-center items-center w-[38px] h-[38px] px-2 py-1 ${isActive ? "bg-customBlue text-white" : "text-black"

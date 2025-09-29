@@ -28,11 +28,8 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-200">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-200">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-            <span className="text-white text-xl font-bold">⏰</span>
-          </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Timeline & Ownership</h2>
             <p className="text-gray-600 mt-1">Set important dates and assign ownership</p>

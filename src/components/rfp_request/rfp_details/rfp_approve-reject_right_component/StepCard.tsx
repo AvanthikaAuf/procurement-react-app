@@ -6,22 +6,13 @@ import { IStep } from "../../../../types/approvalflowTypes";
 
 
 
-const StepCard: React.FC<{ step: IStep, trigger: () => void, flowType:"rfp" | "rfpproposal" | "rfpaward" }> = ({ step, trigger, flowType }) => {
+const StepCard: React.FC<{ step: IStep, trigger: () => void, flowType:"rfp" | "rfpproposal" | "rfpaward",proposalId?:number }> = ({ step, trigger, flowType, proposalId }) => {
     console.log(step)
     return (
         <div className="bg-white rounded border border-gray-200 overflow-hidden mb-2 hover:shadow-sm transition-all duration-200">
             {/* Header Section */}
             <div className="bg-gray-50 px-3 py-2 border-b border-gray-200">
                 <div className="flex items-center space-x-2">
-                    {/* Role Icon */}
-                    <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                        <span className="text-white text-xs">
-                            {step.approverRole === 'HOD' ? '👨‍💼' : 
-                             step.approverRole === 'IT' ? '💻' : 
-                             step.approverRole === 'Finance' ? '💰' : '👤'}
-                        </span>
-                    </div>
-                    
                     {/* Role Title */}
                     <div className="flex-1">
                         <h3 className="text-sm font-semibold text-gray-900">{step.approverRole}</h3>
@@ -57,7 +48,7 @@ const StepCard: React.FC<{ step: IStep, trigger: () => void, flowType:"rfp" | "r
 
                 {/* Action Section */}
                 <div className="mt-2">
-                    {step.current && step.status == "pending" && <CurrentStep step={step} trigger={trigger} flowType={flowType} />}
+                    {step.current && step.status == "pending" && <CurrentStep proposalId={proposalId} step={step} trigger={trigger} flowType={flowType} />}
                     {(step.status == "rejected" || step.status == "approved" || step.status == "initiated") && <CompletedStep step={step} />}
                 </div>
             </div>

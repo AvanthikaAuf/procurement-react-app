@@ -3,6 +3,7 @@ import { message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { IProcurementItem } from "../../../types/rfpTypes";
 import { parseExcelFile, validateParsedItems } from "../../../utils/excelParser";
+import { BoxIcon } from "../../../utils/Icons";
 
 interface ProcurementItemsProps {
   items?: IProcurementItem[];
@@ -17,8 +18,8 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
     if (!editForm.itemName.trim()) {
       return;
     }
-    
-    setItems([...items, { ...editForm, id: Date.now() }]);
+
+    setItems([...items, { ...editForm, id: 0 }]);
     setEditForm({ itemName: "", itemCode: "", quantity: 0 });
   };
 
@@ -39,7 +40,7 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
 
     // Editing existing item
     const updatedItems = items.map((item, index) =>
-      index === editingIndex ? { ...editForm, id: item.id || Date.now() } : item
+      index === editingIndex ? { ...editForm, id: item.id || 0 } : item
     );
     setItems(updatedItems);
 
@@ -67,7 +68,7 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
       'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ];
-    
+
     if (!allowedTypes.includes(file.type) && !file.name.match(/\.(csv|xls|xlsx)$/i)) {
       message.error('Please upload a CSV or Excel file (.csv, .xls, .xlsx)');
       return;
@@ -94,8 +95,8 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
       }
 
       // Convert parsed items to IProcurementItem format
-      const newItems: IProcurementItem[] = parsedItems.map((item, index) => ({
-        id: Date.now() + index,
+      const newItems: IProcurementItem[] = parsedItems.map((item) => ({
+        id: 0,
         itemName: item.itemName,
         itemCode: item.itemCode,
         quantity: item.quantity
@@ -104,7 +105,7 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
       // Replace existing items with imported items
       setItems(newItems);
       message.success(`Successfully imported ${newItems.length} items from ${file.name}. Previous items have been replaced.`);
-      
+
       // Clear the file input
       event.target.value = '';
     } catch (error) {
@@ -116,11 +117,8 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-50 to-red-50 px-8 py-6 border-b border-gray-200">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-200">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center shadow-lg">
-            <span className="text-white text-xl font-bold">📦</span>
-          </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Procurement Items</h2>
             <p className="text-gray-600 mt-1">Add procurement items with their quantities for this RFP</p>
@@ -134,9 +132,6 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
         <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <UploadOutlined className="text-blue-600 text-xl" />
-              </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">Bulk Import Items</h3>
                 <p className="text-sm text-gray-600 mt-1">
@@ -193,7 +188,7 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {(items || []).map((item, index) => (
-                  <tr key={item.id || index} className="hover:bg-blue-50 transition-colors duration-150">
+                  <tr key={index} className="hover:bg-blue-50 transition-colors duration-150">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
@@ -219,7 +214,11 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
                     <td className="px-6 py-4 text-center">
                       <div className="flex justify-center space-x-2">
                         <button
-                          onClick={() => handleEditItem(index)}
+                          onClick={(e) => {
+                            handleEditItem(index)
+                            e.preventDefault();
+                          }
+                          }
                           className="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-lg transition-all duration-200"
                           title="Edit item"
                         >
@@ -378,13 +377,13 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600 font-bold text-lg">📦</span>
+                  <span className="text-green-600 font-bold text-lg"><BoxIcon/></span>
                 </div>
                 <span className="text-lg font-semibold text-gray-700">
                   Total Quantity
                 </span>
               </div>
-              <span className="text-2xl font-bold text-green-600 bg-white px-4 py-2 rounded-lg shadow-sm">
+              <span className="text-2xl font-bold text-blue-800 bg-white px-4 py-2 rounded-lg shadow-sm">
                 {calculateTotal().toLocaleString()} items
               </span>
             </div>
@@ -394,9 +393,6 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
         {/* Empty State */}
         {(items || []).length === 0 && editingIndex === null && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-gray-400 text-2xl">📝</span>
-            </div>
             <h3 className="text-lg font-medium text-gray-700 mb-2">No items added yet</h3>
             <p className="text-gray-500 mb-4">Use the form below to add items or upload an Excel file</p>
           </div>
