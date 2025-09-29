@@ -88,7 +88,7 @@ const RequestDetailRight: React.FC<IVendorDetailRight> = ({ vendorDetails, trigg
     }, [vendorDetails])
 
     return (
-        <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3 max-h-[400px] overflow-y-auto scrollbar">
+        <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3">
             <StepIndicator steps={stepsList} />
 
             <div className="w-full space-y-2">

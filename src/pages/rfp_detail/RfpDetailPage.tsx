@@ -64,7 +64,7 @@ const RequestDetailPage: React.FC = () => {
                 </div>
 
                 {/* Approval Flow Section - Top */}
-                <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3 max-h-[400px] overflow-y-auto scrollbar">
+                <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3">
                   {rfpData.status == 5 ||
                   rfpData?.status == 9 ||
                   rfpData.status == 9 ? (

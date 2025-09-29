@@ -43,12 +43,9 @@ const StepIndicator: React.FC<{ steps: IStep[] }> = ({ steps }) => {
     }, []);
 
     return (
-        <div className="bg-gray-50 rounded p-3 mb-3 border border-gray-200">
+        <div className="bg-gray-50 rounded p-3 mb-3 border border-gray-200 mt-4">
             {/* Header */}
             <div className="flex items-center space-x-2 mb-3">
-                <div className="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
-                    <span className="text-white text-xs">🔄</span>
-                </div>
                 <div>
                     <h3 className="text-sm font-semibold text-gray-900">Approval Flow</h3>
                     <p className="text-sm text-gray-600">Track progress</p>
