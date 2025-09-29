@@ -105,7 +105,7 @@ export const Login: React.FC<LoginProps> = ({ setUserLoggedIn }) => {
               src={ProcurementLogo}
               alt="TenderFlow Logo"
             />
-            <span className="text-xl font-bold text-gray-900">TenderFlow</span>
+            <span className="text-xl font-bold text-gray-900">Procure</span>
           </div>
           <div className="p-8 lg:px-16 lg:py-10">
             <div className="w-full max-w-md mx-auto">
