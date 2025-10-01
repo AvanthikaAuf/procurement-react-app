@@ -6,7 +6,6 @@ import TitleCard from "../../components/dashboard/TitleCard";
 import { IFilterDto, statusDataProp } from "../../types/commonTypes";
 import RequestCard from "../../components/dashboard/RequestCard";
 import PageLoader from "../../components/basic_components/PageLoader";
-import { notification } from "antd";
 import { convertCurrencyLabel } from "../../utils/common";
 import { rfp_column_labels } from "../../utils/constants";
 import { getAllRfpsByFilterAsync } from "../../services/rfpService";
@@ -440,9 +439,9 @@ function Dashboard() {
       });
     } catch (error: any) {
       console.log("Error fetching dashboard data:", error);
-      notification.error({
-        message: error.message,
-      });
+      // notification.error({
+      //   message: error.message,
+      // });
     } finally {
       setShowLoader(false);
     }

@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import ApprovalWorkflowForm from './ApprovalWorkflowForm';
 import { getApprovalFlowAsync } from '../../../services/flowService';
@@ -42,10 +41,10 @@ const ApprovalWorkflow: React.FC = () => {
       setUsersData(users.items);
       setTrigger(false);
     } catch (error: any) {
-      notification.error({
-        message: "Error",
-        description: error.message,
-      });
+      // notification.error({
+      //   message: "Error",
+      //   description: error.message,
+      // });
     }
   };
 

@@ -69,10 +69,10 @@ const DepartmentManagment: React.FC = () => {
       const response = await getAllDepartmentsAsync(filterData);
       setDepartments(response);
     } catch (err: any) {
-      notification.error({
-        message: "Error fetching department",
-        description: err.message
-      })
+      // notification.error({
+      //   message: "Error fetching department",
+      //   description: err.message
+      // })
     }
   }
   useEffect(() => {

@@ -11,7 +11,6 @@ import {
   Descriptions,
   Button,
   Divider,
-  notification,
 } from 'antd';
 import {
   LogoutOutlined,
@@ -44,10 +43,10 @@ function UserProfilePage() {
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        notification.error({
-          message: "Failed to load user data",
-          description: "Please try again later.",
-        });
+        // notification.error({
+        //   message: "Failed to load user data",
+        //   description: "Please try again later.",
+        // });
       }
     };
 
