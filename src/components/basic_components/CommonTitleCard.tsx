@@ -43,7 +43,7 @@ const CommonTitleCard = () => {
                     setCompanyDetails(response);
                     console.log('Company Details:', response);
                 } catch (error) {
-                    console.error('Error fetching company details:', error);
+                    // console.error('Error fetching company details:', error);
                 } finally {
                     setLoading(false);
                 }

@@ -439,7 +439,7 @@ function Dashboard() {
         totalCount: statusCounts.reduce((a, b) => a + b, 0), // Total all requests
       });
     } catch (error: any) {
-      console.error("Error fetching dashboard data:", error);
+      console.log("Error fetching dashboard data:", error);
       notification.error({
         message: error.message,
       });
@@ -448,7 +448,6 @@ function Dashboard() {
     }
   }, []);
 
-  // Fetch capex requests with filter
   const getRfpRequestFilter = useCallback(async (filterData = filter) => {
     try {
       const response: any[] = await getAllRfpsByFilterAsync(filterData);
@@ -464,7 +463,7 @@ function Dashboard() {
         rfpRequests: filtered_requests,
       }));
     } catch (error) {
-      console.error("Error fetching filtered capex requests:", error);
+      console.error("Error fetching filtered RFPs", error);
     }
   }, []);
 
