@@ -46,46 +46,46 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
         rfpDetails?.id,
         "rfpaward"
       );
-    const formatedSteps = response.map((item: any, i) => ({
-      ...item,
-      current:
-        getUserCredentials().userId == item.approverId &&
-        (i == 0 || response[i - 1].status == 1),
-      status:
-        item.status == 0
-          ? "pending"
-          : item.status == 1
-            ? "approved"
-            : "rejected",
-      photo: item.photo || "", // Add photo property with default empty string
-    }));
-    setStepsList(formatedSteps);
-    if (
-      rfpDetails?.status == 9 ||
-      rfpDetails?.status == 10 ||
-      rfpDetails?.status == 6
-    ) {
-      const evaluationReports = await getAllEvaluationReportsAsync(
-        Number(rfpDetails?.id || "0")
-      );
-      const evalutionDocumentMapped = evaluationReports.map((d: any) => ({
-        documentUrl: d.filePath,
-        documentName: d.fileTitle,
+      const formatedSteps = response.map((item: any, i) => ({
+        ...item,
+        current:
+          getUserCredentials().userId == item.approverId &&
+          (i == 0 || response[i - 1].status == 1),
+        status:
+          item.status == 0
+            ? "pending"
+            : item.status == 1
+              ? "approved"
+              : "rejected",
+        photo: item.photo || "", // Add photo property with default empty string
       }));
-      setEvaluationDocuments(evalutionDocumentMapped);
-      const selectedProposalsList = await getAllSelectedProposalsByRfpIdAsync(
-        rfpDetails?.id || 0
-      );
-      console.log(
-        selectedProposalsList,
-        "selectedProposalsList--------------selectedProposalsList"
-      );
-      setSelectedProposals(selectedProposalsList);
-      const decissionPaperTemp = await getRfpDecisionPaperByRfpIdAsync(
-        rfpDetails?.id
-      );
-      if (decissionPaperTemp) setDecissionPaper(decissionPaperTemp);
-    }
+      setStepsList(formatedSteps);
+      if (
+        rfpDetails?.status == 9 ||
+        rfpDetails?.status == 10 ||
+        rfpDetails?.status == 6
+      ) {
+        const evaluationReports = await getAllEvaluationReportsAsync(
+          Number(rfpDetails?.id || "0")
+        );
+        const evalutionDocumentMapped = evaluationReports.map((d: any) => ({
+          documentUrl: d.filePath,
+          documentName: d.fileTitle,
+        }));
+        setEvaluationDocuments(evalutionDocumentMapped);
+        const selectedProposalsList = await getAllSelectedProposalsByRfpIdAsync(
+          rfpDetails?.id || 0
+        );
+        console.log(
+          selectedProposalsList,
+          "selectedProposalsList--------------selectedProposalsList"
+        );
+        setSelectedProposals(selectedProposalsList);
+        const decissionPaperTemp = await getRfpDecisionPaperByRfpIdAsync(
+          rfpDetails?.id
+        );
+        if (decissionPaperTemp) setDecissionPaper(decissionPaperTemp);
+      }
     } catch (error) {
       console.error("Error setting up RFP proposal approve/reject:", error);
     }
@@ -106,7 +106,7 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
           currentIndex = i;
         }
       }
-      
+
       // Enable select if there are future steps after the current one
       if (currentIndex >= 0 && currentIndex < stepsList.length - 1) {
         setEnableSelect(true);
@@ -189,8 +189,6 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
       )
         : (
           <div className="w-full space-y-2 desktop:max-w-[712px] mx-auto rounded-lg h-full px-6 max-h-[890px] overflow-y-auto scrollbar">
-            <StepIndicator steps={stepsList || []} />
-
             <div className="w-full">
               <span className="font-bold text-[16px] mb-[17.5px] flex">
                 <GeneralDetailIcon className="size-5" />
@@ -286,6 +284,8 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
                       />
                     </div>
                   ))}
+
+                  <StepIndicator steps={stepsList || []} />
                   <div>
                     <label className="block text-sm font-medium text-md mb-1">
                       Selectd vendor for Award
@@ -358,7 +358,7 @@ const RfpAwardflow: React.FC<IRfpDetailRight> = ({ rfpDetails, trigger }) => {
                         />
                       );
                     }
-                    
+
                     // Show future steps in a plain div
                     return (rfpDetails.status == 1 || rfpDetails.status == 2) &&
                       rfpDetails.createdBy == getUserCredentials().userId ? (

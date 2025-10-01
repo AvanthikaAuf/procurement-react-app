@@ -28,10 +28,10 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 flex ${justifyClass} ${alignClass} z-20 bg-black bg-opacity-25 backdrop-blur-sm m-0`}
+      className={`fixed inset-0 flex ${justifyClass} ${alignClass} z-11 bg-black bg-opacity-20 backdrop-blur-sm !m-0`}
     >
       <div
-        className={`bg-white relative flex flex-col h-full ${width} shadow-2xl`}
+        className={`bg-white relative flex flex-col h-full ${width} shadow-2xl rounded-md overflow-hidden`}
       >
         {/* Close Button */}
         <button
