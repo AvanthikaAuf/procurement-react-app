@@ -42,6 +42,8 @@ const RequestDetailPage: React.FC = () => {
     getRequestDetailData();
   }, []);
 
+   const Newclass = rfpData?.status != 5 ? "space-y-3 desktop:max-w-[600px] px-3 py-3" : "";
+
   return (
     <div className="">
       <div className="desktop-wide:flex desktop:flex-row desktop-wide:justify-center">
@@ -64,7 +66,7 @@ const RequestDetailPage: React.FC = () => {
                 </div>
 
                 {/* Approval Flow Section - Top */}
-                <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3">
+                <div className={`w-full mx-auto rounded h-full ${Newclass}`}>
                   {rfpData.status == 5 ||
                   rfpData?.status == 9 ||
                   rfpData.status == 9 ? (
@@ -113,7 +115,7 @@ const RequestDetailPage: React.FC = () => {
           rfpData?.status == 5 ||
           rfpData?.status == 9) &&
           getUserCredentials().userId == rfpData?.createdBy.toString() && (
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md z-50">
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md z-9">
               <div className="max-w-4xl mx-auto px-4 py-3">
                 <form
                   onSubmit={(e) => {
@@ -129,7 +131,7 @@ const RequestDetailPage: React.FC = () => {
                       } else {
                         if(!vendorProposals || vendorProposals.length == 0){
                           notification.warning({
-                            message:"No Proposals Found"
+                            message:"No vendor proposal submitted"
                           })
                           return;
                         }
@@ -152,7 +154,7 @@ const RequestDetailPage: React.FC = () => {
                       ? "Publish now"
                       : rfpData?.status == 9
                       ? "Create DP"
-                      : "Sent for Open proposals"}
+                      : "Request Approval to Open RFP"}
                   </Button>
                 </form>
               </div>

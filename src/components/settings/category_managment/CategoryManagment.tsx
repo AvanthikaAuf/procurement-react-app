@@ -62,10 +62,10 @@ const CategoryManagment: React.FC = () => {
       console.log(response)
       setCategories(response || []);
     } catch (err: any) {
-      notification.error({
-        message: "Error fetching categories",
-        description: err.message
-      });
+      // notification.error({
+      //   message: "Error fetching categories",
+      //   description: err.message
+      // });
     }
   };
 

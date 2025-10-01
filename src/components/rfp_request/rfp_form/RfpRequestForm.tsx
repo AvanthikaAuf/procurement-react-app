@@ -27,7 +27,7 @@ import { ClipboardMainIcon } from "../../../utils/Icons";
 type RfpType = "create" | "edit";
 
 interface RfpRequestFormProps {
-  type?: RfpType; // optional, will default to 'create'
+  type?: RfpType;
 }
 
 const defaultRfpState: IRfp = {
@@ -57,7 +57,13 @@ const defaultRfpState: IRfp = {
   rfpDocuments: [],
   rfpOwners: [],
   rfpCategories: [],
-  rfpItems: [],
+};
+
+// Validation reference
+const RfpValidationFields: Partial<Record<keyof IRfp, string>> = {
+  rfpCategories: "Categories",
+  buyer: "Buyer",
+  expressInterestLastDate: "Express Interest Last Date",
 };
 
 function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
@@ -72,11 +78,17 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
     companies: [],
     documentTypes: [],
   });
+
+  const [procurementItems, setProcurementItems] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [owners, setOwners] = useState<{ technical: any[]; commercial: any[] }>(
     { technical: [], commercial: [] }
   );
-  const [procurementItems, setProcurementItems] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const OwnersValidationFields: Record<keyof typeof owners, string> = {
+    technical: "Technical Owners",
+    commercial: "Commercial Owners",
+  };
 
   useEffect(() => {
     setupRfpFormAsync();
@@ -122,12 +134,12 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
           });
           setOwners(ownersTemp);
           setProcurementItems(rfpRequest.rfpItems || []);
-          // ✅ Load previously uploaded files
+          //  Load previously uploaded files
           const filesArray: any = [];
           for (let fileDetail of rfpRequest.rfpGeneralDocuments || []) {
             const { document, documentName } = await fetchAndConvertToFile(
               fileDetail?.filePath,
-              fileDetail?.fileTitle // ✅ This is the original name stored in DB
+              fileDetail?.fileTitle //  This is the original name stored in DB
             );
 
             filesArray.push({
@@ -159,54 +171,49 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
     }
   };
 
-  // const steps = [
-  //   {
-  //     title: "General Information",
-  //     content: <GeneralInformation masterData={masterData} setRequestData={setRequestData} requestData={requestData} />,
-  //   },
-  //   {
-  //     title: "RFP Details",
-  //     content: <RfpDetails masterData={masterData} setRequestData={setRequestData} requestData={requestData} />,
-  //   },
-  //   {
-  //     title: "Timeline & Ownership",
-  //     content: <TimeLineOwnership masterData={masterData} setRequestData={setRequestData} requestData={requestData} owners={owners} setOwners={setOwners} />,
-  //   },
-  //   {
-  //     title: "Attachments",
-  //     content: <><AddAttachment id={"technical-doc1"} label="Technical documents" attachments={technicalAttachments} setAttachments={setTechnicalAttachments} type="technical" requestData={requestData.rfpTechnicalDocuments
-  //     } />
-  //       <AddAttachment id={"general_doc1"} label="General documents" attachments={attachments} setAttachments={setAttachments} type="general" requestData={requestData.rfpGeneralDocuments} /></>,
-  //   }
-  // ];
-
-  // const next = () => {
-  //   setCurrent((prev) => Math.min(prev + 1, steps.length - 1));
-  // };
-
-  // const prev = () => {
-  //   setCurrent((prev) => Math.max(prev - 1, 0));
-  // };
   useEffect(() => {
     console.log(requestData, "reg");
   }, [requestData]);
 
+  const validateRfpFields = (data: IRfp) => {
+    (Object.keys(RfpValidationFields) as (keyof IRfp)[]).forEach((key) => {
+      const value = data[key];
+      const label = RfpValidationFields[key];
+
+      if (
+        (typeof value === "string" && value.trim() === "") ||
+        (Array.isArray(value) && value.length === 0) ||
+        value === undefined ||
+        value === null
+      ) {
+        alert(`Please fill the ${label}`);
+        throw new Error("Validation failed");
+      }
+    });
+
+    Object.entries(OwnersValidationFields).forEach(([key, label]) => {
+      if (owners[key as keyof typeof owners].length === 0) {
+        alert(`Please fill the ${label}`);
+        throw new Error("Validation failed");
+      }
+    });
+
+    if (!procurementItems || procurementItems.length === 0) {
+      alert("Please add at least one Procurement Item");
+      throw new Error("Validation failed");
+    }
+
+    if (!attachments || attachments.length === 0) {
+      alert("Please upload at least one Attachment");
+      throw new Error("Validation failed");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // validation
+    validateRfpFields(requestData);
     console.log("Form submitted!", requestData);
-
-    // Basic validation
-    if (
-      !requestData.rfpTitle ||
-      !requestData.rfpDescription ||
-      !requestData.estimatedContractValue
-    ) {
-      console.log("Validation failed - missing required fields");
-      alert(
-        "Please fill in all required fields (RFP Title, Description, and Estimated Contract Value)"
-      );
-      return;
-    }
 
     setIsLoading(true);
     // if (actionRef.current?.value == "next") {
@@ -329,7 +336,7 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Progress Steps */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+          {/* <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-3">
@@ -378,7 +385,7 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Form Sections */}
           <div className="space-y-8">

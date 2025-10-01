@@ -313,8 +313,8 @@ const RolesPermissions: React.FC = () => {
               <button
                 className={`px-6 py-3 rounded-lg text-button font-medium transition-all duration-200 flex justify-end items-center text-sm ${
                   changesDone
-                    ? "bg-customBlue text-white"
-                    : "bg-blue-700 !text-white cursor-not-allowed"
+                    ? "bg-customBlue !text-white"
+                    : "bg-blue-300 !text-white cursor-not-allowed"
                 }`}
                 disabled={!changesDone}
                 onClick={() => handleSaveChangesForRole(selectedRole.roleid)}

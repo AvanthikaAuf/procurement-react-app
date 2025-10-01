@@ -144,87 +144,84 @@ const RequestCard: React.FC<RequestCardProps> = ({
   }, [labels, data, colors]);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border-0 p-6 h-[350px] flex flex-col relative overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 h-[350px] flex flex-col relative overflow-hidden hover:shadow-xl transition-all duration-300">
       <div className="relative z-10 flex-1 flex flex-col">
         {/* Header */}
-        <div className="flex items-center space-x-4 mb-6">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="p-1.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
           <div>
-            <h2 className="text-heading-3">Request Status</h2>
-            <p className="text-body-small text-muted">Distribution overview</p>
+            <h2 className="text-lg font-bold text-gray-900">Request Status</h2>
+            <p className="text-xs text-gray-500">Distribution overview</p>
           </div>
         </div>
 
-        {/* Content - Vertical Layout for Narrow Width */}
-        <div className="flex-1 flex flex-col items-center space-y-6">
+        {/* Content - Horizontal Layout for Better Space Usage */}
+        <div className="flex-1 flex flex-row items-center gap-6">
           {/* Chart Section */}
           <div className="flex-shrink-0">
             <div className="relative">
               <canvas
                 ref={chartRef}
-                className="w-[140px] h-[140px] drop-shadow-lg"
-                width={140}
-                height={140}
+                className="w-[160px] h-[160px] drop-shadow-lg"
+                width={160}
+                height={160}
               />
-              {/* Chart glow effect */}
-              <div className="absolute inset-0 w-[140px] h-[140px] rounded-full bg-gradient-to-r from-emerald-100 to-green-100 opacity-40 blur-xl"></div>
+              {/* Enhanced Chart glow effect */}
+              <div className="absolute inset-0 w-[160px] h-[160px] rounded-full bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 opacity-30 blur-xl"></div>
             </div>
           </div>
 
           {/* Legend Section */}
-          <div className="w-full space-y-3">
+          <div className="flex-1 w-full space-y-3 max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {labels.map((label, index) => {
               const total = data.reduce((a, b) => a + b, 0);
-              const percentage =
                 total > 0 ? ((data[index] * 100) / total).toFixed(1) : 0;
               return (
-                <div key={index} className="group">
-                  <div className="p-4 bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl border border-slate-100 hover:from-slate-100 hover:to-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-3">
-                        {/* Color Indicator */}
-                        <div className="relative">
-                          <div
-                            className="w-4 h-4 rounded-full shadow-sm group-hover:scale-110 transition-transform duration-300"
-                            style={{ backgroundColor: colors[index] }}
-                          ></div>
-                          <div
-                            className="absolute inset-0 w-4 h-4 rounded-full opacity-30 group-hover:opacity-50 transition-opacity duration-300"
-                            style={{ backgroundColor: colors[index] }}
-                          ></div>
-                        </div>
-
-                        {/* Label */}
-                        <span className="text-label">{label}</span>
-                      </div>
-
-                      {/* Value */}
-                      <div className="text-right">
-                        <div className="text-base font-bold text-slate-900">
-                          {`${data[index]?.toLocaleString()}` || "0"}
-                        </div>
-                        <div className="text-body-small text-muted">
-                          {percentage}%
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div key={index} className="group flex items-center justify-between p-1 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                  <div className="flex items-center space-x-3">
+                    {/* Color Indicator */}
+                    <div className="relative">
                       <div
-                        className="h-full rounded-full transition-all duration-1000 ease-out shadow-sm"
-                        style={{
-                          width: `${percentage}%`,
-                          backgroundColor: colors[index],
-                        }}
+                        className="w-5 h-5 rounded-full shadow-sm group-hover:scale-110 transition-transform duration-300 border-2 border-white"
+                        style={{ backgroundColor: colors[index] }}
                       ></div>
                     </div>
+
+                    {/* Label */}
+                    <span className="text-xs font-medium text-gray-700 group-hover:text-gray-900 transition-colors">{label}</span>
+                  </div>
+
+                  {/* Value */}
+                  <div className="text-right">
+                    <div className="text-base font-bold text-gray-900">
+                      {`${data[index]?.toLocaleString()}` || "0"}
+                    </div>
+                    
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
+
+        {/* Footer with Total */}
+        <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-gray-600">Total Requests</span>
+            <span className="text-lg font-bold text-gray-900">
+              {data.reduce((a, b) => a + b, 0).toLocaleString()}
+            </span>
+          </div>
+        </div>
       </div>
+      
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full opacity-20 blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-pink-100 to-yellow-100 rounded-full opacity-20 blur-lg"></div>
     </div>
   );
 };

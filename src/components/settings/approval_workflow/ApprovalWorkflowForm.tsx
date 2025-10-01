@@ -96,10 +96,10 @@ const ApprovalWorkflowForm: React.FC<IApprovalWorkflowForm> = ({
             setUsersList(approvers?.items);
             // setTrigger(false);
         } catch (err: any) {
-            notification.error({
-                message: "error fetching users",
-                description: err.message
-            })
+            // notification.error({
+            //     message: "error fetching users",
+            //     description: err.message
+            // })
         } finally {
             setIsLoading(false);
         }

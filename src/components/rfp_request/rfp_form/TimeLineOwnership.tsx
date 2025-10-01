@@ -44,6 +44,7 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
           <div className="space-y-6">
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
               <DateTimePicker
+                required={true}
                 value={requestData.expressInterestLastDate || null}
                 label="Express Interest Last Date"
                 format="DD-MM-YYYY hh:mm A"
@@ -62,6 +63,7 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
                 Clarification End Date <span className="text-red-500">*</span>
               </label>
               <DatePicker
+                required={true}
                 value={requestData.clarificationDate ? dayjs(requestData.clarificationDate) : null}
                 id="clarificationDate"
                 className="w-full h-[41px]"
@@ -80,6 +82,7 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
                 Publish Date <span className="text-red-500">*</span>
               </label>
               <DatePicker
+                required={true}
                 value={requestData.publishDate ? dayjs(requestData.publishDate) : null}
                 id="buyerReplyEndDate"
                 className="w-full h-[41px]"
@@ -92,7 +95,10 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
                 }
               />
             </div>
+          </div>
 
+          {/* Column 2 */}
+          <div className="space-y-6">
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
               <DateTimePicker
                 required={true}
@@ -107,10 +113,6 @@ const TimeLineOwnership: React.FC<TimeLineOwnershipProps> = ({
                 }
               />
             </div>
-          </div>
-
-          {/* Column 2 */}
-          <div className="space-y-6">
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
               <label className="block text-sm font-semibold text-gray-700 mb-3">Technical Owners <span className="text-red-500">*</span></label>
               <PeoplePicker

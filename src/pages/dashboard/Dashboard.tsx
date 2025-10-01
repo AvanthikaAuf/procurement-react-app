@@ -6,10 +6,10 @@ import TitleCard from "../../components/dashboard/TitleCard";
 import { IFilterDto, statusDataProp } from "../../types/commonTypes";
 import RequestCard from "../../components/dashboard/RequestCard";
 import PageLoader from "../../components/basic_components/PageLoader";
-import { notification } from "antd";
 import { convertCurrencyLabel } from "../../utils/common";
 import { rfp_column_labels } from "../../utils/constants";
 import { getAllRfpsByFilterAsync } from "../../services/rfpService";
+import { useNavigate } from "react-router-dom";
 
 const defaultFilter: IFilterDto = {
   fields: [
@@ -33,51 +33,28 @@ function Dashboard() {
     "status",
   ];
 
-  const [requestStatus, setRequestStatus] = useState([8, 15, 12]);
+  const [requestStatus, setRequestStatus] = useState([0, 0, 0]);
 
   // State definitions
   const [dashboardData, setDashboardData] = useState({
     newRequests: [] as any[],
     // requestStatus: [0, 0, 0],
     rfpRequests: [
-      {
-        tenderNumber: "RFP-2024-001",
-        rfpTitle: "Office Equipment Procurement",
-        buyerName: "John Smith",
-        estimatedContractValueLabel: "$25,000.00",
-        status: 1,
-      },
-      {
-        tenderNumber: "RFP-2024-002",
-        rfpTitle: "IT Infrastructure Upgrade",
-        buyerName: "Sarah Johnson",
-        estimatedContractValueLabel: "$45,000.00",
-        status: 2,
-      },
-      {
-        tenderNumber: "RFP-2024-003",
-        rfpTitle: "Marketing Services Contract",
-        buyerName: "Mike Davis",
-        estimatedContractValueLabel: "$15,000.00",
-        status: 1,
-      },
     ] as any[],
-    totalCount: 3,
+    totalCount: 0,
   });
 
   const [budgetDetails, setBudgetDetails] = useState<any>({
     years: ["2020", "2021", "2022", "2023", "2024"],
-    budgets: [12000, 15000, 18000, 22000, 25000],
-    spend: [10000, 13000, 16000, 19000, 21000],
+    budgets: [0, 0, 0, 0, 0],
+    spend: [0, 0, 0, 0, 0],
   });
-
+  const navigate = useNavigate();
   const [, setTrigger] = useState(false);
   const [, setIsSortModalOpen] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [filter, setFilter] = useState<IFilterDto>(defaultFilter);
-
   const [statusData, setStatusData] = useState<statusDataProp[]>([
     {
       icon: (
@@ -99,7 +76,7 @@ function Dashboard() {
         </svg>
       ),
       label: "Total RFPs",
-      value: 8,
+      value: 0,
       color: "bg-blue-500/30",
       textColor: "text-blue-900",
     },
@@ -126,7 +103,7 @@ function Dashboard() {
         </div>
       ),
       label: "Closed RFPs",
-      value: 8,
+      value: 0,
       color: "bg-blue-500/30",
       textColor: "text-blue-900",
     },
@@ -151,7 +128,7 @@ function Dashboard() {
         </svg>
       ),
       label: "Open RFPs",
-      value: 15,
+      value: 0,
       color: "bg-blue-500/30",
       textColor: "text-blue-900",
     },
@@ -176,7 +153,7 @@ function Dashboard() {
         </svg>
       ),
       label: "Under Approval",
-      value: 12,
+      value: 0,
       color: "bg-blue-500/30",
       textColor: "text-blue-900",
     },
@@ -461,16 +438,15 @@ function Dashboard() {
         totalCount: statusCounts.reduce((a, b) => a + b, 0), // Total all requests
       });
     } catch (error: any) {
-      console.error("Error fetching dashboard data:", error);
-      notification.error({
-        message: error.message,
-      });
+      console.log("Error fetching dashboard data:", error);
+      // notification.error({
+      //   message: error.message,
+      // });
     } finally {
       setShowLoader(false);
     }
   }, []);
 
-  // Fetch capex requests with filter
   const getRfpRequestFilter = useCallback(async (filterData = filter) => {
     try {
       const response: any[] = await getAllRfpsByFilterAsync(filterData);
@@ -486,7 +462,7 @@ function Dashboard() {
         rfpRequests: filtered_requests,
       }));
     } catch (error) {
-      console.error("Error fetching filtered capex requests:", error);
+      console.error("Error fetching filtered RFPs", error);
     }
   }, []);
 
@@ -574,7 +550,7 @@ function Dashboard() {
                       columns={commonColumns}
                       items={dashboardData.rfpRequests || []}
                       columnLabels={rfp_column_labels}
-                      setIsFilterModalOpen={() => {}}
+                      setIsFilterModalOpen={() => { }}
                       setSearchQuery={setSearchQuery}
                       totalCount={20}
                       type="rfps"
@@ -651,7 +627,7 @@ function Dashboard() {
                         </div>
                       </div>
                       <div className="space-y-3">
-                        <button className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg font-semibold">
+                        <button onClick={()=>navigate("/rfps/create-rfp")} className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg font-semibold">
                           <span className="mr-3 text-base">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

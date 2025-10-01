@@ -59,10 +59,10 @@ const CriteriaManagment: React.FC = () => {
       console.log(filterData,response)
       setCategories(response || []);
     } catch (err: any) {
-      notification.error({
-        message: "Error fetching categories",
-        description: err.message
-      });
+      // notification.error({
+      //   message: "Error fetching categories",
+      //   description: err.message
+      // });
     }
   };
 

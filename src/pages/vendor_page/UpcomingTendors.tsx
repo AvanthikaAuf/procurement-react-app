@@ -66,10 +66,13 @@ const UpcomingTendors = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [searchQuery]);
+  }, [searchQuery,filter]);
 
   const handleSearch = async () => {
     console.log(searchQuery, "searchquery after fetch");
+    fetchTendorList({
+      ...filter,globalSearch:searchQuery
+    })
   };
 
   const [tendorData, setTendorData] = useState<IUTendors>({
