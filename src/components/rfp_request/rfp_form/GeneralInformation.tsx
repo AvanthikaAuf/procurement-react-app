@@ -197,7 +197,7 @@ const GeneralInformation: React.FC<GeneralInformationProps> = ({
                 value={
                   masterData?.departments?.find(
                     (x: any) => Number(x?.id) == Number(requestData?.departmentId)
-                  )?.departmentName || "Buyer department"
+                  )?.departmentName || "Select department"
                 }
                 options={(masterData?.departments)?.map((x: any) => ({
                   label: (

@@ -336,7 +336,7 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Progress Steps */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+          {/* <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-3">
@@ -385,7 +385,7 @@ function RfpRequestFormComponent({ type = "create" }: RfpRequestFormProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Form Sections */}
           <div className="space-y-8">
