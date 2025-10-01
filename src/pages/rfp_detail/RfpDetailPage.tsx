@@ -115,7 +115,7 @@ const RequestDetailPage: React.FC = () => {
           rfpData?.status == 5 ||
           rfpData?.status == 9) &&
           getUserCredentials().userId == rfpData?.createdBy.toString() && (
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md z-50">
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md z-9">
               <div className="max-w-4xl mx-auto px-4 py-3">
                 <form
                   onSubmit={(e) => {
@@ -131,7 +131,7 @@ const RequestDetailPage: React.FC = () => {
                       } else {
                         if(!vendorProposals || vendorProposals.length == 0){
                           notification.warning({
-                            message:"No Proposals Found"
+                            message:"No vendor proposal submitted"
                           })
                           return;
                         }
@@ -154,7 +154,7 @@ const RequestDetailPage: React.FC = () => {
                       ? "Publish now"
                       : rfpData?.status == 9
                       ? "Create DP"
-                      : "Sent for Open proposals"}
+                      : "Request Approval to Open RFP"}
                   </Button>
                 </form>
               </div>
