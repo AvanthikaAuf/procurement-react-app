@@ -28,7 +28,7 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 flex ${justifyClass} ${alignClass} z-20 bg-black bg-opacity-25 backdrop-blur-sm`}
+      className={`fixed inset-0 flex ${justifyClass} ${alignClass} z-20 bg-black bg-opacity-25 backdrop-blur-sm m-0`}
     >
       <div
         className={`bg-white relative flex flex-col h-full ${width} shadow-2xl`}
