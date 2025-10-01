@@ -30,7 +30,7 @@ export default function RfpPublishPage() {
   const [items, setItems] = useState<any[]>([]);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, ] = useState<string>("");
   const [categories, setCategories] = useState<any[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState<boolean>(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
