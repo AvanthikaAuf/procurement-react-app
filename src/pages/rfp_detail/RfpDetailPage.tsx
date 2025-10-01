@@ -42,6 +42,8 @@ const RequestDetailPage: React.FC = () => {
     getRequestDetailData();
   }, []);
 
+   const Newclass = rfpData?.status != 5 ? "space-y-3 desktop:max-w-[600px] px-3 py-3" : "";
+
   return (
     <div className="">
       <div className="desktop-wide:flex desktop:flex-row desktop-wide:justify-center">
@@ -64,7 +66,7 @@ const RequestDetailPage: React.FC = () => {
                 </div>
 
                 {/* Approval Flow Section - Top */}
-                <div className="w-full space-y-3 desktop:max-w-[600px] mx-auto rounded h-full px-3">
+                <div className={`w-full mx-auto rounded h-full ${Newclass}`}>
                   {rfpData.status == 5 ||
                   rfpData?.status == 9 ||
                   rfpData.status == 9 ? (
