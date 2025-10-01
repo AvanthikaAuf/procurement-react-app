@@ -162,7 +162,7 @@ const RfpDetailRight: React.FC<IRfpDetailRight> = ({ rfp, trigger, vendorProposa
 
     return (
         <>
-            <div className="w-full bg-white">
+            <div className="w-full bg-white h-full">
                 <div className="w-full space-y-2 desktop:max-w-[700px] mx-auto rounded-lg h-full px-6 max-h-[900px] overflow-y-auto scrollbar">
                     <div className="flex items-center sticky top-0 bg-white z-10">
                         <div className="overflow-x-auto py-4 flex-1 scroll-smooth no-scrollbar">

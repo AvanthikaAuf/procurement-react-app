@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { message } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import {  EditOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { IProcurementItem } from "../../../types/rfpTypes";
 import { parseExcelFile, validateParsedItems } from "../../../utils/excelParser";
 import { BoxIcon } from "../../../utils/Icons";
@@ -304,9 +304,6 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
                   <tr className="hover:bg-gray-50 border-t-2 border-dashed border-gray-300 bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                          <PlusOutlined className="text-gray-500 text-sm" />
-                        </div>
                         <input
                           type="text"
                           value={editForm.itemName}
@@ -353,7 +350,7 @@ const ProcurementItems: React.FC<ProcurementItemsProps> = ({ items = [], setItem
                           className="inline-flex items-center justify-center w-10 h-10 text-white bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                           title="Add item"
                         >
-                          <PlusOutlined className="text-sm" />
+                         Add
                         </button>
                         <button
                           onClick={() => setEditForm({ itemName: "", itemCode: "", quantity: 0 })}
